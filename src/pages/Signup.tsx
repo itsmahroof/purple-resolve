@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,40 +9,45 @@ import { toast } from 'sonner';
 import { GraduationCap, ArrowLeft } from 'lucide-react';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
 
-const Login = () => {
+const Signup = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, user, userRole } = useAuth();
+  const { signUp } = useAuth();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const roleParam = searchParams.get('role');
-
-  useEffect(() => {
-    if (user && userRole) {
-      if (userRole === 'admin') {
-        navigate('/admin', { replace: true });
-      } else {
-        navigate('/student', { replace: true });
-      }
-    }
-  }, [user, userRole, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       toast.error('Please fill in all fields');
       return;
     }
 
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match');
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error('Password must be at least 6 characters');
+      return;
+    }
+
     setLoading(true);
-    const { error } = await signIn(email, password);
+    const { error } = await signUp(email, password, name);
     
     if (error) {
-      toast.error(error.message || 'Failed to sign in');
+      if (error.message?.includes('already registered')) {
+        toast.error('This email is already registered. Please sign in.');
+      } else {
+        toast.error(error.message || 'Failed to create account');
+      }
     } else {
-      toast.success('Signed in successfully');
+      toast.success('Account created! Please contact admin to assign your role.');
+      navigate('/login');
     }
     setLoading(false);
   };
@@ -65,24 +70,29 @@ const Login = () => {
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            {roleParam === 'admin' ? 'Admin' : roleParam === 'student' ? 'Student' : ''} Login
+            Create Account
           </h1>
-          <p className="text-muted-foreground mt-2">
-            {roleParam === 'admin' 
-              ? 'Manage and resolve complaints' 
-              : roleParam === 'student' 
-              ? 'Submit and track your complaints'
-              : 'Sign in to your account'}
-          </p>
+          <p className="text-muted-foreground mt-2">Join Brototype Complaint Platform</p>
         </div>
 
         <Card className="shadow-card border-border/50 backdrop-blur-sm bg-card/95">
           <CardHeader>
-            <CardTitle>Welcome Back</CardTitle>
-            <CardDescription>Enter your credentials to continue</CardDescription>
+            <CardTitle>Sign Up</CardTitle>
+            <CardDescription>Create your account to get started</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -103,28 +113,41 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  minLength={6}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirm Password</Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  minLength={6}
                 />
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Signing in...' : 'Sign In'}
+                {loading ? 'Creating account...' : 'Create Account'}
               </Button>
             </form>
-
+            
             <div className="mt-4 text-center text-sm">
-              <span className="text-muted-foreground">Don't have an account? </span>
-              <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/signup')}>
-                Sign up
+              <span className="text-muted-foreground">Already have an account? </span>
+              <Button variant="link" className="p-0 h-auto" onClick={() => navigate('/login')}>
+                Sign in
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        <p className="text-center text-sm text-muted-foreground mt-4">
-          Demo credentials will be provided by your administrator
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          After registration, contact your administrator to activate your account
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
