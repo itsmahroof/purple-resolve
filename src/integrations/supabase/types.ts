@@ -103,6 +103,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_demo_users: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
