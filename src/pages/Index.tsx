@@ -88,13 +88,23 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-              <Button
-                onClick={() => navigate('/login?role=student')}
-                className="w-full"
-                size="lg"
-              >
-                Student Login
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  onClick={() => navigate('/login?role=student')}
+                  className="w-full"
+                  size="lg"
+                >
+                  Student Login
+                </Button>
+                <Button
+                  onClick={() => navigate('/signup?role=student')}
+                  variant="outline"
+                  className="w-full"
+                  size="sm"
+                >
+                  Create Student Account
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
@@ -140,30 +150,28 @@ const Index = () => {
                   </div>
                 </div>
               </div>
-              <Button
-                onClick={() => navigate('/login?role=admin')}
-                variant="secondary"
-                className="w-full"
-                size="lg"
-              >
-                Admin Login
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  onClick={() => navigate('/login?role=admin')}
+                  variant="secondary"
+                  className="w-full"
+                  size="lg"
+                >
+                  Admin Login
+                </Button>
+                <Button
+                  onClick={() => navigate('/signup?role=admin')}
+                  variant="outline"
+                  className="w-full"
+                  size="sm"
+                >
+                  Create Admin Account
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="text-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <p className="text-sm text-muted-foreground mb-2">
-            New to the platform?
-          </p>
-          <Button
-            onClick={() => navigate('/signup')}
-            variant="outline"
-            size="lg"
-          >
-            Create Account
-          </Button>
-        </div>
       </div>
     </div>
   );
