@@ -1,19 +1,22 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { GraduationCap, ArrowLeft } from 'lucide-react';
+import { GraduationCap, ArrowLeft, UserCircle, Shield } from 'lucide-react';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
 
 const Signup = () => {
+  const [searchParams] = useSearchParams();
+  const roleParam = searchParams.get('role') as 'student' | 'admin' | null;
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState<'student' | 'admin'>(roleParam || 'student');
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ const Signup = () => {
     }
 
     setLoading(true);
-    const { error } = await signUp(email, password, name);
+    const { error } = await signUp(email, password, name, role);
     
     if (error) {
       if (error.message?.includes('already registered')) {
@@ -46,8 +49,8 @@ const Signup = () => {
         toast.error(error.message || 'Failed to create account');
       }
     } else {
-      toast.success('Account created! Please contact admin to assign your role.');
-      navigate('/login');
+      toast.success('Account created successfully! You can now sign in.');
+      navigate(`/login?role=${role}`);
     }
     setLoading(false);
   };
@@ -70,7 +73,7 @@ const Signup = () => {
             <GraduationCap className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Create Account
+            Create {role === 'admin' ? 'Admin' : 'Student'} Account
           </h1>
           <p className="text-muted-foreground mt-2">Join Brototype Complaint Platform</p>
         </div>
@@ -82,6 +85,35 @@ const Signup = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label>Account Type</Label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setRole('student')}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      role === 'student'
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <UserCircle className={`h-6 w-6 mx-auto mb-2 ${role === 'student' ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <p className="font-medium">Student</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRole('admin')}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      role === 'admin'
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border hover:border-primary/50'
+                    }`}
+                  >
+                    <Shield className={`h-6 w-6 mx-auto mb-2 ${role === 'admin' ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <p className="font-medium">Admin</p>
+                  </button>
+                </div>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input
@@ -143,7 +175,7 @@ const Signup = () => {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground mt-4">
-          After registration, contact your administrator to activate your account
+          By signing up, you'll be able to access the {role === 'admin' ? 'admin' : 'student'} dashboard immediately
         </p>
       </div>
     </div>
