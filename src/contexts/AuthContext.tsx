@@ -62,16 +62,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .from('user_roles')
         .select('role')
         .eq('user_id', userId)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching user role:', error);
+        toast.error('Failed to fetch user role');
         setUserRole(null);
-      } else {
+      } else if (data) {
         setUserRole(data.role as 'student' | 'admin');
+      } else {
+        console.error('No role found for user');
+        toast.error('No role assigned to this account. Please contact admin.');
+        setUserRole(null);
       }
     } catch (err) {
       console.error('Error in fetchUserRole:', err);
+      toast.error('Error loading user role');
       setUserRole(null);
     } finally {
       setLoading(false);
