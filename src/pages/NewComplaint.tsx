@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { PhotoUpload } from '@/components/PhotoUpload';
 import { toast } from 'sonner';
 import { ArrowLeft } from 'lucide-react';
 
@@ -26,6 +27,7 @@ const NewComplaint = () => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [priority, setPriority] = useState<'Low' | 'Medium' | 'High'>('Medium');
+  const [photos, setPhotos] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -46,6 +48,7 @@ const NewComplaint = () => {
         description,
         category,
         priority,
+        photo_urls: photos,
       });
 
       if (error) throw error;
@@ -135,6 +138,11 @@ const NewComplaint = () => {
                   rows={8}
                   className="resize-none"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Photos (Optional)</Label>
+                <PhotoUpload photos={photos} onPhotosChange={setPhotos} maxPhotos={5} />
               </div>
 
               <div className="flex gap-4">
