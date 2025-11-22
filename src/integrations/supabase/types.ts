@@ -21,6 +21,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          photo_urls: string[] | null
           priority: Database["public"]["Enums"]["complaint_priority"]
           status: Database["public"]["Enums"]["complaint_status"]
           student_id: string
@@ -33,6 +34,7 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
+          photo_urls?: string[] | null
           priority?: Database["public"]["Enums"]["complaint_priority"]
           status?: Database["public"]["Enums"]["complaint_status"]
           student_id: string
@@ -45,6 +47,7 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          photo_urls?: string[] | null
           priority?: Database["public"]["Enums"]["complaint_priority"]
           status?: Database["public"]["Enums"]["complaint_status"]
           student_id?: string

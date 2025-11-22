@@ -35,6 +35,7 @@ interface Complaint {
   created_at: string;
   updated_at: string;
   student_id: string;
+  photo_urls: string[];
 }
 
 interface Profile {
@@ -255,6 +256,29 @@ const ComplaintDetail = () => {
                   {complaint.description}
                 </p>
               </div>
+
+              {complaint.photo_urls && complaint.photo_urls.length > 0 && (
+                <div>
+                  <h3 className="font-semibold mb-3">Photos</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {complaint.photo_urls.map((photoUrl, index) => (
+                      <a
+                        key={index}
+                        href={photoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="aspect-square rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-colors group"
+                      >
+                        <img
+                          src={photoUrl}
+                          alt={`Complaint photo ${index + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {complaint.admin_note && (
                 <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
