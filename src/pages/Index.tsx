@@ -5,23 +5,26 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { GraduationCap, Shield, FileText, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
-
 const Index = () => {
   const navigate = useNavigate();
-  const { user, userRole } = useAuth();
-
+  const {
+    user,
+    userRole
+  } = useAuth();
   useEffect(() => {
     if (user && userRole) {
       if (userRole === 'admin') {
-        navigate('/admin', { replace: true });
+        navigate('/admin', {
+          replace: true
+        });
       } else {
-        navigate('/student', { replace: true });
+        navigate('/student', {
+          replace: true
+        });
       }
     }
   }, [user, userRole, navigate]);
-
-  return (
-    <div className="min-h-screen bg-gradient-subtle relative overflow-hidden">
+  return <div className="min-h-screen bg-gradient-subtle relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
@@ -38,7 +41,7 @@ const Index = () => {
             <GraduationCap className="h-10 w-10 text-white" />
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
-            BrotoRaise
+            BroConnect
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Student complaint management system for Brototype
@@ -89,19 +92,10 @@ const Index = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Button
-                  onClick={() => navigate('/login?role=student')}
-                  className="w-full"
-                  size="lg"
-                >
+                <Button onClick={() => navigate('/login?role=student')} className="w-full" size="lg">
                   Student Login
                 </Button>
-                <Button
-                  onClick={() => navigate('/signup?role=student')}
-                  variant="outline"
-                  className="w-full"
-                  size="sm"
-                >
+                <Button onClick={() => navigate('/signup?role=student')} variant="outline" className="w-full" size="sm">
                   Create Student Account
                 </Button>
               </div>
@@ -109,7 +103,9 @@ const Index = () => {
           </Card>
 
           {/* Admin Portal Card */}
-          <Card className="relative overflow-hidden shadow-card border-border/50 backdrop-blur-sm bg-card/95 hover:shadow-hover transition-all duration-300 group animate-scale-in" style={{ animationDelay: '0.1s' }}>
+          <Card className="relative overflow-hidden shadow-card border-border/50 backdrop-blur-sm bg-card/95 hover:shadow-hover transition-all duration-300 group animate-scale-in" style={{
+          animationDelay: '0.1s'
+        }}>
             <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
             <CardHeader className="text-center pb-4">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 mx-auto mb-4">
@@ -151,20 +147,10 @@ const Index = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Button
-                  onClick={() => navigate('/login?role=admin')}
-                  variant="secondary"
-                  className="w-full"
-                  size="lg"
-                >
+                <Button onClick={() => navigate('/login?role=admin')} variant="secondary" className="w-full" size="lg">
                   Admin Login
                 </Button>
-                <Button
-                  onClick={() => navigate('/signup?role=admin')}
-                  variant="outline"
-                  className="w-full"
-                  size="sm"
-                >
+                <Button onClick={() => navigate('/signup?role=admin')} variant="outline" className="w-full" size="sm">
                   Create Admin Account
                 </Button>
               </div>
@@ -173,8 +159,6 @@ const Index = () => {
         </div>
 
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
