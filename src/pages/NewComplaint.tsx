@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
@@ -12,6 +13,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { PhotoUpload } from '@/components/PhotoUpload';
 import { toast } from 'sonner';
 import { ArrowLeft } from 'lucide-react';
+
+const complaintSchema = z.object({
+  title: z.string().trim().min(5, 'Title must be at least 5 characters').max(200, 'Title must be less than 200 characters'),
+  description: z.string().trim().min(20, 'Description must be at least 20 characters').max(5000, 'Description must be less than 5000 characters'),
+  category: z.enum(['Technical Issue', 'Faculty', 'Infrastructure', 'Course Content', 'Administrative', 'Other']),
+  priority: z.enum(['Low', 'Medium', 'High'])
+});
 
 const categories = [
   'Technical Issue',
@@ -35,8 +43,17 @@ const NewComplaint = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!title || !description || !category) {
-      toast.error('Please fill in all required fields');
+    // Validate input using zod schema
+    const validation = complaintSchema.safeParse({
+      title: title.trim(),
+      description: description.trim(),
+      category,
+      priority
+    });
+
+    if (!validation.success) {
+      const firstError = validation.error.errors[0];
+      toast.error(firstError.message);
       return;
     }
 
@@ -44,10 +61,10 @@ const NewComplaint = () => {
     try {
       const { error } = await supabase.from('complaints').insert({
         student_id: user?.id,
-        title,
-        description,
-        category,
-        priority,
+        title: validation.data.title,
+        description: validation.data.description,
+        category: validation.data.category,
+        priority: validation.data.priority,
         photo_urls: photos,
       });
 
