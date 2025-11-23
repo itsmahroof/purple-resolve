@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
@@ -12,6 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner';
 import { ArrowLeft, Clock, User, Tag, AlertCircle, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
+
+const adminNoteSchema = z.string().max(5000, 'Admin note must be less than 5000 characters').nullable();
 import {
   AlertDialog,
   AlertDialogAction,
@@ -95,13 +98,22 @@ const ComplaintDetail = () => {
   const handleUpdate = async () => {
     if (!complaint) return;
 
+    // Validate admin note
+    const noteValue = adminNote.trim() || null;
+    const validation = adminNoteSchema.safeParse(noteValue);
+
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
     setUpdating(true);
     try {
       const { error } = await supabase
         .from('complaints')
         .update({
           status,
-          admin_note: adminNote || null,
+          admin_note: validation.data,
         })
         .eq('id', complaint.id);
 
