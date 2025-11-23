@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { z } from 'zod';
+import DOMPurify from 'isomorphic-dompurify';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { Navbar } from '@/components/Navbar';
@@ -10,11 +10,11 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import { ArrowLeft, Clock, User, Tag, AlertCircle, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
-
-const adminNoteSchema = z.string().max(5000, 'Admin note must be less than 5000 characters').nullable();
+import { ComplaintUpdateSchema } from '@/validation/ComplaintSchema';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -56,6 +56,7 @@ const ComplaintDetail = () => {
   const [updating, setUpdating] = useState(false);
   const [adminNote, setAdminNote] = useState('');
   const [status, setStatus] = useState<'Pending' | 'In Review' | 'Resolved'>('Pending');
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -98,31 +99,52 @@ const ComplaintDetail = () => {
   const handleUpdate = async () => {
     if (!complaint) return;
 
-    // Validate admin note
+    setValidationError(null);
+
+    // Validate using centralized schema
     const noteValue = adminNote.trim() || null;
-    const validation = adminNoteSchema.safeParse(noteValue);
+    const validation = ComplaintUpdateSchema.safeParse({
+      status,
+      admin_note: noteValue
+    });
 
     if (!validation.success) {
-      toast.error(validation.error.errors[0].message);
+      const firstError = validation.error.errors[0];
+      setValidationError(firstError.message);
+      toast.error(firstError.message);
       return;
     }
 
     setUpdating(true);
     try {
+      // Sanitize admin note to prevent XSS attacks
+      const sanitizedNote = validation.data.admin_note 
+        ? DOMPurify.sanitize(validation.data.admin_note)
+        : null;
+
       const { error } = await supabase
         .from('complaints')
         .update({
-          status,
-          admin_note: validation.data,
+          status: validation.data.status,
+          admin_note: sanitizedNote,
         })
         .eq('id', complaint.id);
 
-      if (error) throw error;
+      if (error) {
+        // Check for database constraint violations
+        if (error.message.includes('too long') || error.message.includes('length')) {
+          throw new Error('Admin note exceeds maximum length of 300 characters.');
+        }
+        throw error;
+      }
 
       toast.success('Complaint updated successfully');
+      setValidationError(null);
       fetchComplaint();
     } catch (error: any) {
-      toast.error('Failed to update complaint');
+      const errorMessage = error.message || 'Failed to update complaint';
+      setValidationError(errorMessage);
+      toast.error(errorMessage);
       console.error('Error updating complaint:', error);
     } finally {
       setUpdating(false);
@@ -313,6 +335,13 @@ const ComplaintDetail = () => {
                 <CardDescription>Update complaint status and add notes</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                {validationError && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Validation Error</AlertTitle>
+                    <AlertDescription>{validationError}</AlertDescription>
+                  </Alert>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="status">Status</Label>
                   <Select value={status} onValueChange={(value: any) => setStatus(value)}>
@@ -328,14 +357,18 @@ const ComplaintDetail = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="admin-note">Admin Note</Label>
+                  <Label htmlFor="admin-note">Admin Note (Max 300 characters)</Label>
                   <Textarea
                     id="admin-note"
                     placeholder="Add notes about this complaint..."
                     value={adminNote}
                     onChange={(e) => setAdminNote(e.target.value)}
+                    maxLength={300}
                     rows={4}
                   />
+                  <p className="text-xs text-muted-foreground">
+                    {adminNote.length}/300 characters
+                  </p>
                 </div>
 
                 <Button onClick={handleUpdate} disabled={updating} className="w-full">
