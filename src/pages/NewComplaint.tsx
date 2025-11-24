@@ -165,19 +165,19 @@ const NewComplaint = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description * (10-1000 characters)</Label>
+                <Label htmlFor="description">Description * (10-500 characters)</Label>
                 <Textarea
                   id="description"
                   placeholder="Provide detailed information about your complaint"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  maxLength={1000}
+                  maxLength={500}
                   required
                   rows={8}
                   className="resize-none"
                 />
                 <p className="text-xs text-muted-foreground">
-                  {description.length}/1000 characters
+                  {description.length}/500 characters
                 </p>
               </div>
 
