@@ -50,7 +50,9 @@ const Index = () => {
 
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
           {/* Student Portal Card */}
-          <Card className="relative overflow-hidden shadow-card border-border/50 backdrop-blur-sm bg-card/95 hover:shadow-hover transition-all duration-300 group animate-scale-in">
+          <Card 
+            onClick={() => navigate('/login?role=student')}
+            className="relative overflow-hidden shadow-card border-border/50 backdrop-blur-sm bg-card/95 hover:shadow-hover transition-all duration-300 group animate-scale-in cursor-pointer">
             <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
             <CardHeader className="text-center pb-4">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mx-auto mb-4">
@@ -92,10 +94,23 @@ const Index = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Button onClick={() => navigate('/login?role=student')} className="w-full" size="lg">
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/login?role=student');
+                  }} 
+                  className="w-full" 
+                  size="lg">
                   Student Login
                 </Button>
-                <Button onClick={() => navigate('/signup?role=student')} variant="outline" className="w-full" size="sm">
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/signup?role=student');
+                  }} 
+                  variant="outline" 
+                  className="w-full" 
+                  size="sm">
                   Create Student Account
                 </Button>
               </div>
@@ -103,9 +118,12 @@ const Index = () => {
           </Card>
 
           {/* Admin Portal Card */}
-          <Card className="relative overflow-hidden shadow-card border-border/50 backdrop-blur-sm bg-card/95 hover:shadow-hover transition-all duration-300 group animate-scale-in" style={{
-          animationDelay: '0.1s'
-        }}>
+          <Card 
+            onClick={() => navigate('/login?role=admin')}
+            className="relative overflow-hidden shadow-card border-border/50 backdrop-blur-sm bg-card/95 hover:shadow-hover transition-all duration-300 group animate-scale-in cursor-pointer" 
+            style={{
+              animationDelay: '0.1s'
+            }}>
             <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
             <CardHeader className="text-center pb-4">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent/10 mx-auto mb-4">
@@ -147,10 +165,24 @@ const Index = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Button onClick={() => navigate('/login?role=admin')} variant="secondary" className="w-full" size="lg">
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/login?role=admin');
+                  }} 
+                  variant="secondary" 
+                  className="w-full" 
+                  size="lg">
                   Admin Login
                 </Button>
-                <Button onClick={() => navigate('/signup?role=admin')} variant="outline" className="w-full" size="sm">
+                <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/signup?role=admin');
+                  }} 
+                  variant="outline" 
+                  className="w-full" 
+                  size="sm">
                   Create Admin Account
                 </Button>
               </div>
