@@ -90,7 +90,7 @@ const Index = () => {
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/login?role=student');
-              }} className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg" size="lg">
+              }} size="lg" className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg bg-[#554cf8]">
                   Login
                 </Button>
                 <Button onClick={e => {
@@ -145,7 +145,7 @@ const Index = () => {
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/login?role=admin');
-              }} variant="secondary" className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg" size="lg">
+              }} variant="secondary" size="lg" className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg bg-[#554cf8] text-slate-100">
                   Login
                 </Button>
                 <Button onClick={e => {
