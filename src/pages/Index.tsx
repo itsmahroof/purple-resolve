@@ -42,7 +42,7 @@ const Index = () => {
             BroConnect
           </h1>
           <p className="text-2xl md:text-3xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
-            Modern complaint management for students and administrators
+            complaint management for students and administrators
           </p>
         </div>
 
