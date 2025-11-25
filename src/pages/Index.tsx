@@ -33,12 +33,12 @@ const Index = () => {
         {/* Hero Section */}
         <div className="max-w-6xl mx-auto mb-24 animate-fade-in">
           <div className="mb-3">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-primary">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold tracking-wider uppercase text-primary text-right">
               <GraduationCap className="h-4 w-4" />
               Brototype Portal
             </span>
           </div>
-          <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight">
+          <h1 className="text-7xl md:text-8xl font-bold mb-6 tracking-tight text-center">
             BroConnect
           </h1>
           <p className="text-2xl text-muted-foreground max-w-2xl font-light">
@@ -49,9 +49,7 @@ const Index = () => {
         {/* Portal Cards */}
         <div className="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {/* Student Portal Card */}
-          <Card 
-            onClick={() => navigate('/login?role=student')}
-            className="group relative border-2 border-border hover:border-primary bg-card transition-all duration-300 cursor-pointer overflow-hidden">
+          <Card onClick={() => navigate('/login?role=student')} className="group relative border-2 border-border hover:border-primary bg-card transition-all duration-300 cursor-pointer overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             
             <CardHeader className="space-y-6 relative pb-8">
@@ -89,22 +87,16 @@ const Index = () => {
               </div>
 
               <div className="flex flex-col gap-3 pt-4">
-                <Button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate('/login?role=student');
-                  }} 
-                  className="w-full font-semibold" 
-                  size="lg">
+                <Button onClick={e => {
+                e.stopPropagation();
+                navigate('/login?role=student');
+              }} className="w-full font-semibold" size="lg">
                   Login
                 </Button>
-                <Button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate('/signup?role=student');
-                  }} 
-                  variant="ghost" 
-                  className="w-full font-medium">
+                <Button onClick={e => {
+                e.stopPropagation();
+                navigate('/signup?role=student');
+              }} variant="ghost" className="w-full font-medium">
                   Create Account
                 </Button>
               </div>
@@ -112,9 +104,7 @@ const Index = () => {
           </Card>
 
           {/* Admin Portal Card */}
-          <Card 
-            onClick={() => navigate('/login?role=admin')}
-            className="group relative border-2 border-border hover:border-accent bg-card transition-all duration-300 cursor-pointer overflow-hidden">
+          <Card onClick={() => navigate('/login?role=admin')} className="group relative border-2 border-border hover:border-accent bg-card transition-all duration-300 cursor-pointer overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             
             <CardHeader className="space-y-6 relative pb-8">
@@ -152,23 +142,16 @@ const Index = () => {
               </div>
 
               <div className="flex flex-col gap-3 pt-4">
-                <Button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate('/login?role=admin');
-                  }} 
-                  variant="secondary" 
-                  className="w-full font-semibold" 
-                  size="lg">
+                <Button onClick={e => {
+                e.stopPropagation();
+                navigate('/login?role=admin');
+              }} variant="secondary" className="w-full font-semibold" size="lg">
                   Login
                 </Button>
-                <Button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate('/signup?role=admin');
-                  }} 
-                  variant="ghost" 
-                  className="w-full font-medium">
+                <Button onClick={e => {
+                e.stopPropagation();
+                navigate('/signup?role=admin');
+              }} variant="ghost" className="w-full font-medium">
                   Create Account
                 </Button>
               </div>
