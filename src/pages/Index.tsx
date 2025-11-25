@@ -90,13 +90,13 @@ const Index = () => {
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/login?role=student');
-              }} className="w-full font-semibold" size="lg">
+              }} className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg" size="lg">
                   Login
                 </Button>
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/signup?role=student');
-              }} variant="ghost" className="w-full font-medium">
+              }} variant="ghost" className="w-full font-medium transition-all duration-200 active:scale-95">
                   Create Account
                 </Button>
               </div>
@@ -145,13 +145,13 @@ const Index = () => {
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/login?role=admin');
-              }} variant="secondary" className="w-full font-semibold" size="lg">
+              }} variant="secondary" className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg" size="lg">
                   Login
                 </Button>
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/signup?role=admin');
-              }} variant="ghost" className="w-full font-medium">
+              }} variant="ghost" className="w-full font-medium transition-all duration-200 active:scale-95">
                   Create Account
                 </Button>
               </div>
