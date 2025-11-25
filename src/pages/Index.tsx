@@ -41,7 +41,7 @@ const Index = () => {
           <h1 className="text-7xl md:text-9xl font-bold mb-8 tracking-tight bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
             BroConnect
           </h1>
-          <p className="text-2xl md:text-3xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
+          <p className="text-2xl max-w-3xl mx-auto leading-relaxed text-center font-normal md:text-2xl text-slate-600">
             complaint management for students and administrators
           </p>
         </div>
