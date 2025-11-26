@@ -145,7 +145,7 @@ const Index = () => {
                 <Button onClick={e => {
                 e.stopPropagation();
                 navigate('/login?role=admin');
-              }} variant="secondary" size="lg" className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg bg-[inherit] text-slate-400">
+              }} variant="secondary" size="lg" className="w-full font-semibold transition-all duration-200 active:scale-95 hover:shadow-lg bg-[inherit] text-inherit ">
                   Login
                 </Button>
                 <Button onClick={e => {
