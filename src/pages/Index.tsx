@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { GraduationCap, Shield, FileText, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 import { DarkModeToggle } from '@/components/DarkModeToggle';
+import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
 const Index = () => {
   const navigate = useNavigate();
-  const {
-    user,
-    userRole
-  } = useAuth();
+  const { user, userRole } = useAuth();
+  const { theme } = useTheme();
   useEffect(() => {
     if (user && userRole) {
       if (userRole === 'admin') {
@@ -24,7 +24,13 @@ const Index = () => {
       }
     }
   }, [user, userRole, navigate]);
-  return <div className="min-h-screen bg-background dark:bg-background relative overflow-hidden transition-colors duration-300">
+  return (
+    <div
+      className={cn(
+        'min-h-screen bg-background dark:bg-background relative overflow-hidden transition-colors duration-300',
+        theme === 'dark' && 'dark'
+      )}
+    >
       {/* Animated Background Mesh */}
       <div className="absolute inset-0 bg-mesh opacity-60 dark:opacity-30"></div>
       
@@ -57,7 +63,7 @@ const Index = () => {
         {/* Portal Cards */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {/* Student Portal Card */}
-          <Card onClick={() => navigate('/login?role=student')} className="group relative bg-card/90 dark:bg-card/90 backdrop-blur-xl border-2 border-border dark:border-border transition-all duration-500 cursor-pointer overflow-hidden shadow-glass dark:shadow-xl hover:shadow-hover dark:hover:shadow-2xl animate-slide-up">
+          <Card onClick={() => navigate('/login?role=student')} className="group relative bg-card dark:bg-card backdrop-blur-xl border-2 border-border dark:border-border transition-all duration-500 cursor-pointer overflow-hidden shadow-glass dark:shadow-xl hover:shadow-hover dark:hover:shadow-2xl animate-slide-up">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/5 to-transparent dark:from-primary/20 dark:via-primary-glow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 dark:via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -122,7 +128,7 @@ const Index = () => {
           </Card>
 
           {/* Admin Portal Card */}
-          <Card onClick={() => navigate('/login?role=admin')} className="group relative bg-card/90 dark:bg-card/90 backdrop-blur-xl border-2 border-border dark:border-border transition-all duration-500 cursor-pointer overflow-hidden shadow-glass dark:shadow-xl hover:shadow-hover dark:hover:shadow-2xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <Card onClick={() => navigate('/login?role=admin')} className="group relative bg-card dark:bg-card backdrop-blur-xl border-2 border-border dark:border-border transition-all duration-500 cursor-pointer overflow-hidden shadow-glass dark:shadow-xl hover:shadow-hover dark:hover:shadow-2xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent dark:from-accent/20 dark:via-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 dark:via-accent/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
@@ -188,6 +194,7 @@ const Index = () => {
         </div>
 
       </div>
-    </div>;
+    </div>
+  );
 };
 export default Index;
