@@ -24,6 +24,7 @@ export const DarkModeToggle = () => {
   // Sync theme changes to DOM and localStorage
   useEffect(() => {
     const html = document.documentElement;
+    console.log('[DarkModeToggle] effect run, isDark =', isDark, 'html classes =', html.className);
     if (isDark) {
       html.classList.add('dark');
       localStorage.setItem('theme', 'dark');
