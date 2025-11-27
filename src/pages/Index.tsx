@@ -24,14 +24,14 @@ const Index = () => {
       }
     }
   }, [user, userRole, navigate]);
-  return <div className="min-h-screen bg-gradient-subtle relative overflow-hidden">
+  return <div className="min-h-screen bg-background dark:bg-background relative overflow-hidden transition-colors duration-300">
       {/* Animated Background Mesh */}
-      <div className="absolute inset-0 bg-mesh opacity-60"></div>
+      <div className="absolute inset-0 bg-mesh opacity-60 dark:opacity-30"></div>
       
       {/* Floating Orbs */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/15 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
-      <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-primary-glow/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 dark:bg-primary/30 rounded-full blur-3xl animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/15 dark:bg-accent/25 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+      <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-primary-glow/10 dark:bg-primary-glow/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
       
       <div className="absolute top-6 right-6 z-10">
         <DarkModeToggle />
@@ -49,7 +49,7 @@ const Index = () => {
           <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-6 tracking-tighter text-gradient animate-gradient" style={{ backgroundSize: '200% 200%' }}>
             BroConnect
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-center font-medium text-muted-foreground">
+          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed text-center font-medium text-muted-foreground dark:text-muted-foreground">
             Modern complaint management for students and administrators
           </p>
         </div>
@@ -57,10 +57,10 @@ const Index = () => {
         {/* Portal Cards */}
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {/* Student Portal Card */}
-          <Card onClick={() => navigate('/login?role=student')} className="group relative glass-card glass-card-hover border-2 transition-all duration-500 cursor-pointer overflow-hidden shadow-glass hover:shadow-hover animate-slide-up">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <Card onClick={() => navigate('/login?role=student')} className="group relative bg-card/90 dark:bg-card/90 backdrop-blur-xl border-2 border-border dark:border-border transition-all duration-500 cursor-pointer overflow-hidden shadow-glass dark:shadow-xl hover:shadow-hover dark:hover:shadow-2xl animate-slide-up">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary-glow/5 to-transparent dark:from-primary/20 dark:via-primary-glow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 dark:via-primary/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </div>
             
             <CardHeader className="space-y-6 relative pb-8">
@@ -74,8 +74,8 @@ const Index = () => {
               </div>
               
               <div>
-                <CardTitle className="text-3xl sm:text-4xl font-black mb-3 group-hover:text-primary transition-colors duration-300">Submit & Track</CardTitle>
-                <CardDescription className="text-base sm:text-lg text-muted-foreground font-medium">
+                <CardTitle className="text-3xl sm:text-4xl font-black mb-3 text-foreground dark:text-foreground group-hover:text-primary transition-colors duration-300">Submit & Track</CardTitle>
+                <CardDescription className="text-base sm:text-lg text-muted-foreground dark:text-muted-foreground font-medium">
                   Voice your concerns with real-time status updates
                 </CardDescription>
               </div>
@@ -87,19 +87,19 @@ const Index = () => {
                   <div className="p-2 rounded-lg bg-primary/10 group-hover/item:bg-primary/20 transition-colors duration-300">
                     <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold">Submit detailed complaints</p>
+                  <p className="text-sm sm:text-base font-semibold text-foreground dark:text-foreground">Submit detailed complaints</p>
                 </div>
                 <div className="flex items-center gap-4 group/item">
                   <div className="p-2 rounded-lg bg-primary/10 group-hover/item:bg-primary/20 transition-colors duration-300">
                     <Clock className="h-5 w-5 text-primary flex-shrink-0" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold">Real-time progress tracking</p>
+                  <p className="text-sm sm:text-base font-semibold text-foreground dark:text-foreground">Real-time progress tracking</p>
                 </div>
                 <div className="flex items-center gap-4 group/item">
                   <div className="p-2 rounded-lg bg-primary/10 group-hover/item:bg-primary/20 transition-colors duration-300">
                     <TrendingUp className="h-5 w-5 text-primary flex-shrink-0" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold">Direct admin communication</p>
+                  <p className="text-sm sm:text-base font-semibold text-foreground dark:text-foreground">Direct admin communication</p>
                 </div>
               </div>
 
@@ -122,10 +122,10 @@ const Index = () => {
           </Card>
 
           {/* Admin Portal Card */}
-          <Card onClick={() => navigate('/login?role=admin')} className="group relative glass-card glass-card-hover border-2 transition-all duration-500 cursor-pointer overflow-hidden shadow-glass hover:shadow-hover animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <Card onClick={() => navigate('/login?role=admin')} className="group relative bg-card/90 dark:bg-card/90 backdrop-blur-xl border-2 border-border dark:border-border transition-all duration-500 cursor-pointer overflow-hidden shadow-glass dark:shadow-xl hover:shadow-hover dark:hover:shadow-2xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent dark:from-accent/20 dark:via-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 dark:via-accent/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </div>
             
             <CardHeader className="space-y-6 relative pb-8">
@@ -139,8 +139,8 @@ const Index = () => {
               </div>
               
               <div>
-                <CardTitle className="text-3xl sm:text-4xl font-black mb-3 group-hover:text-accent transition-colors duration-300">Manage & Resolve</CardTitle>
-                <CardDescription className="text-base sm:text-lg text-muted-foreground font-medium">
+                <CardTitle className="text-3xl sm:text-4xl font-black mb-3 text-foreground dark:text-foreground group-hover:text-accent transition-colors duration-300">Manage & Resolve</CardTitle>
+                <CardDescription className="text-base sm:text-lg text-muted-foreground dark:text-muted-foreground font-medium">
                   Efficient complaint management with powerful tools
                 </CardDescription>
               </div>
@@ -152,19 +152,19 @@ const Index = () => {
                   <div className="p-2 rounded-lg bg-accent/10 group-hover/item:bg-accent/20 transition-colors duration-300">
                     <FileText className="h-5 w-5 text-accent flex-shrink-0" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold">Complete complaint database</p>
+                  <p className="text-sm sm:text-base font-semibold text-foreground dark:text-foreground">Complete complaint database</p>
                 </div>
                 <div className="flex items-center gap-4 group/item">
                   <div className="p-2 rounded-lg bg-accent/10 group-hover/item:bg-accent/20 transition-colors duration-300">
                     <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold">Status updates & admin notes</p>
+                  <p className="text-sm sm:text-base font-semibold text-foreground dark:text-foreground">Status updates & admin notes</p>
                 </div>
                 <div className="flex items-center gap-4 group/item">
                   <div className="p-2 rounded-lg bg-accent/10 group-hover/item:bg-accent/20 transition-colors duration-300">
                     <TrendingUp className="h-5 w-5 text-accent flex-shrink-0" />
                   </div>
-                  <p className="text-sm sm:text-base font-semibold">Advanced filtering & analytics</p>
+                  <p className="text-sm sm:text-base font-semibold text-foreground dark:text-foreground">Advanced filtering & analytics</p>
                 </div>
               </div>
 
