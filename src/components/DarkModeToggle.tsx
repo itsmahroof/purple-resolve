@@ -4,16 +4,24 @@ import { useEffect, useState } from 'react';
 
 export const DarkModeToggle = () => {
   const [isDark, setIsDark] = useState(() => {
-    // Initialize from localStorage or default to light mode
     if (typeof window !== 'undefined') {
       const savedTheme = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return savedTheme === 'dark' || (!savedTheme && prefersDark);
+      const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      
+      // Apply theme immediately on mount
+      if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      return shouldBeDark;
     }
     return false;
   });
 
-  // Apply theme on mount and when isDark changes
+  // Sync theme changes to DOM and localStorage
   useEffect(() => {
     const html = document.documentElement;
     if (isDark) {
