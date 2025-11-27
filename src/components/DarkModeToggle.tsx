@@ -3,43 +3,45 @@ import { Button } from '@/components/ui/button';
 import { useEffect, useState } from 'react';
 
 export const DarkModeToggle = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    // Initialize from localStorage or default to light mode
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return savedTheme === 'dark' || (!savedTheme && prefersDark);
+    }
+    return false;
+  });
 
+  // Apply theme on mount and when isDark changes
   useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains('dark');
-    setIsDark(isDarkMode);
-  }, []);
-
-  const toggleDarkMode = () => {
     const html = document.documentElement;
-    if (html.classList.contains('dark')) {
-      html.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      setIsDark(false);
-    } else {
+    if (isDark) {
       html.classList.add('dark');
       localStorage.setItem('theme', 'dark');
-      setIsDark(true);
+    } else {
+      html.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
-  };
+  }, [isDark]);
 
-  // Initialize theme on mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
-    }
-  }, []);
+  const toggleDarkMode = () => {
+    setIsDark(prev => !prev);
+  };
 
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={toggleDarkMode}
-      className="rounded-full"
+      className="rounded-full hover:bg-primary/10 transition-all duration-300"
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+      {isDark ? (
+        <Sun className="h-5 w-5 text-primary animate-in spin-in-180 duration-500" />
+      ) : (
+        <Moon className="h-5 w-5 text-primary animate-in spin-in-180 duration-500" />
+      )}
     </Button>
   );
 };
